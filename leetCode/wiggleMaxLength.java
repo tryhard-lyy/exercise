@@ -4,36 +4,14 @@ class Solution {
             return nums.length;
         }
 
-        final int BEGIN = 0;
-        final int UP = 1;
-        final int DOWN = 2;
-        int count = 1;
-        int state = BEGIN;
+        int state = nums[1] - nums[0];//state表示当前状态为升还是降,>0升
+        int count = state != 0 ? 2 : 1; 
 
-        for(int i = 1;i<nums.length;i++){
-            switch(state){
-                case(BEGIN):
-                    if(nums[i] > nums[i-1]){
-                        state = UP;
-                        count++;
-                    }
-                    else if(nums[i] < nums[i-1]){
-                        state = DOWN;
-                        count++;
-                    }
-                    break;
-                case(UP):
-                    if(nums[i] < nums[i-1]){
-                        state = DOWN;
-                        count++;
-                    }
-                    break;
-                case(DOWN):
-                    if(nums[i] > nums[i-1]){
-                        state = UP;
-                        count++;
-                    }
-                    break;
+        for(int i = 2;i < nums.length;i++){
+            int diff = nums[i] - nums[i-1];//diff表示当前状态
+            if(diff>0&&state<=0 || diff<0&&state>=0){
+                count++;
+                state = diff;
             }
         }
 
